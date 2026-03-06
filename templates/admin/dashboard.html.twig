@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard Admin - Barbearia{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="mb-4">Dashboard Admin</h1>
+
+    {# Statistiques #}
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Total Rendez-vous</h5>
+                    <p class="card-text display-4">{{ totalRendezVous }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">En Attente</h5>
+                    <p class="card-text display-4">{{ rendezVousEnAttente }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Prestations</h5>
+                    <p class="card-text display-4">{{ totalPrestations }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Utilisateurs</h5>
+                    <p class="card-text display-4">{{ totalUtilisateurs }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Derniers rendez-vous #}
+    <h2 class="mb-3">Derniers Rendez-vous</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Client</th>
+                <th>Prestation</th>
+                <th>Statut</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for rendezVous in derniersRendezVous %}
+            <tr>
+                <td>{{ rendezVous.DateHeure|date('d/m/Y H:i') }}</td>
+                <td>{{ rendezVous.user.Prenom }} {{ rendezVous.user.Nom }}</td>
+                <td>{{ rendezVous.prestation.Nom }}</td>
+                <td>
+                    {% if rendezVous.Statut == 'en attente' %}
+                        <span class="badge bg-warning">En attente</span>
+                    {% elseif rendezVous.Statut == 'accepté' %}
+                        <span class="badge bg-success">Accepté</span>
+                    {% elseif rendezVous.Statut == 'terminé' %}
+                        <span class="badge bg-info">Terminé</span>
+                    {% elseif rendezVous.Statut == 'annulé' %}
+                        <span class="badge bg-danger">Annulé</span>
+                    {% else %}
+                        <span class="badge bg-secondary">{{ rendezVous.Statut }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ path('app_rendez_vous_show', {'id': rendezVous.id}) }}" class="btn btn-sm btn-primary">Voir</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5" class="text-center">Aucun rendez-vous trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="mt-3">
+        <a href="{{ path('app_rendez_vous_index') }}" class="btn btn-secondary">Voir tous les rendez-vous</a>
+        <a href="{{ path('app_prestation_index') }}" class="btn btn-secondary">Voir les prestations</a>
+    </div>
+</div>
+{% endblock %}
+
