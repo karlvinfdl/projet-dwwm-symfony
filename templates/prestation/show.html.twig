@@ -1,38 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Prestation{% endblock %}
+{% block title %}Prestation - Barber Studio{% endblock %}
 
 {% block body %}
-    <h1>Prestation</h1>
+<div class="page-header">
+    <h1>{{ prestation.Nom }}</h1>
+    <p class="mb-0" style="color: #ccc;">Détails de la prestation</p>
+</div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ prestation.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ prestation.Nom }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ prestation.Description }}</td>
-            </tr>
-            <tr>
-                <th>Prix</th>
-                <td>{{ prestation.Prix }}</td>
-            </tr>
-            <tr>
-                <th>Duree</th>
-                <td>{{ prestation.Duree }}</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="styled-card mb-4">
+    <div class="card-header styled-card-header">
+        Prestation #{{ prestation.id }}
+    </div>
+    <div class="card-body">
+        <table class="table mb-0">
+            <tbody>
+                <tr>
+                    <th style="width: 200px;">Nom</th>
+                    <td><strong>{{ prestation.Nom }}</strong></td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ prestation.Description }}</td>
+                </tr>
+                <tr>
+                    <th>Prix</th>
+                    <td><span class="badge bg-primary" style="font-size: 1rem;">{{ prestation.Prix }}€</span></td>
+                </tr>
+                <tr>
+                    <th>Durée</th>
+                    <td>{{ prestation.Duree }} minutes</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
-    <a href="{{ path('app_prestation_index') }}">back to list</a>
+<div class="d-flex gap-2 mb-4">
+    <a href="{{ path('app_prestation_index') }}" class="btn bouton-clair">
+        ← Retour à la liste
+    </a>
+    <a href="{{ path('app_prestation_edit', {'id': prestation.id}) }}" class="btn bouton-noir">
+        Modifier
+    </a>
+</div>
 
-    <a href="{{ path('app_prestation_edit', {'id': prestation.id}) }}">edit</a>
-
-    {{ include('prestation/_delete_form.html.twig') }}
+{{ include('prestation/_delete_form.html.twig') }}
 {% endblock %}
+

@@ -1,64 +1,76 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Rendez-vous{% endblock %}
+{% block title %}Rendez-vous - Barber Studio{% endblock %}
 
 {% block body %}
-    <h1>Rendez-vous</h1>
+    <div class="page-header">
+        <h1>Détails du rendez-vous</h1>
+        <p class="mb-0" style="color: #ccc;">Informations complètes</p>
+    </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ rendez_vou.id }}</td>
-            </tr>
-            <tr>
-                <th>Date et heure</th>
-                <td>{{ rendez_vou.DateHeure ? rendez_vou.DateHeure|date('d/m/Y H:i') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Prestation</th>
-                <td>{{ rendez_vou.prestation.nom }} ({{ rendez_vou.prestation.duree }} min - {{ rendez_vou.prestation.prix }}€)</td>
-            </tr>
-            <tr>
-                <th>Statut</th>
-                <td>
-                    {% if rendez_vou.Statut == 'en attente' %}
-                        <span class="badge bg-warning">En attente</span>
-                    {% elseif rendez_vou.Statut == 'accepté' %}
-                        <span class="badge bg-success">Accepté</span>
-                    {% elseif rendez_vou.Statut == 'terminé' %}
-                        <span class="badge bg-info">Terminé</span>
-                    {% elseif rendez_vou.Statut == 'annulé' %}
-                        <span class="badge bg-danger">Annulé</span>
-                    {% else %}
-                        {{ rendez_vou.Statut }}
+    <div class="styled-card mb-4">
+        <div class="card-header styled-card-header">
+            Rendez-vous #{{ rendez_vou.id }}
+        </div>
+        <div class="card-body">
+            <table class="table mb-0">
+                <tbody>
+                    <tr>
+                        <th style="width: 200px;">Date et heure</th>
+                        <td>{{ rendez_vou.DateHeure ? rendez_vou.DateHeure|date('d/m/Y H:i') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Prestation</th>
+                        <td>
+                            <strong>{{ rendez_vou.prestation.nom }}</strong>
+                            <br><small class="text-muted">{{ rendez_vou.prestation.duree }} min - {{ rendez_vou.prestation.prix }}€</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Statut</th>
+                        <td>
+                            {% if rendez_vou.Statut == 'en attente' %}
+                                <span class="badge bg-warning">En attente</span>
+                            {% elseif rendez_vou.Statut == 'accepté' %}
+                                <span class="badge bg-success">Accepté</span>
+                            {% elseif rendez_vou.Statut == 'terminé' %}
+                                <span class="badge bg-info">Terminé</span>
+                            {% elseif rendez_vou.Statut == 'annulé' %}
+                                <span class="badge bg-danger">Annulé</span>
+                            {% else %}
+                                {{ rendez_vou.Statut }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Commentaire</th>
+                        <td>{{ rendez_vou.Commentaire ?: 'Aucun commentaire' }}</td>
+                    </tr>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <tr>
+                        <th>Client</th>
+                        <td>
+                            {{ rendez_vou.user.Prenom }} {{ rendez_vou.user.Nom }}
+                            <br><small class="text-muted">{{ rendez_vou.user.email }}</small>
+                        </td>
+                    </tr>
                     {% endif %}
-                </td>
-            </tr>
-            <tr>
-                <th>Commentaire</th>
-                <td>{{ rendez_vou.Commentaire ?: 'Aucun' }}</td>
-            </tr>
-            {% if is_granted('ROLE_ADMIN') %}
-            <tr>
-                <th>Client</th>
-                <td>{{ rendez_vou.user.email }}</td>
-            </tr>
-            {% endif %}
-        </tbody>
-    </table>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     {# Formulaire de changement de statut pour l'admin #}
     {% if is_granted('ROLE_ADMIN') %}
-        <div class="card mb-3">
-            <div class="card-header">
-                <h5>Modifier le statut</h5>
+        <div class="styled-card mb-4">
+            <div class="card-header styled-card-header">
+                Modifier le statut
             </div>
             <div class="card-body">
                 <form method="post" action="{{ path('app_rendez_vous_statut', {'id': rendez_vou.id}) }}">
                     <input type="hidden" name="_token" value="{{ csrf_token('statut' ~ rendez_vou.id) }}">
                     <div class="row align-items-end">
-                        <div class="col-auto">
+                        <div class="col-md-4">
                             <label for="statut" class="form-label">Nouveau statut</label>
                             <select name="statut" id="statut" class="form-select">
                                 <option value="en attente" {% if rendez_vou.Statut == 'en attente' %}selected{% endif %}>En attente</option>
@@ -68,7 +80,7 @@
                             </select>
                         </div>
                         <div class="col-auto">
-                            <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                            <button type="submit" class="btn bouton-rouge">Mettre à jour</button>
                         </div>
                     </div>
                 </form>
@@ -76,11 +88,15 @@
         </div>
     {% endif %}
 
-    <div class="mt-3">
-        <a href="{{ path('app_rendez_vous_index') }}" class="btn btn-secondary">Retour à la liste</a>
+    <div class="d-flex gap-2 mb-4">
+        <a href="{{ path('app_rendez_vous_index') }}" class="btn bouton-clair">
+            ← Retour à la liste
+        </a>
         
         {% if is_granted('ROLE_ADMIN') or rendez_vou.user == app.user %}
-            <a href="{{ path('app_rendez_vous_edit', {'id': rendez_vou.id}) }}" class="btn btn-warning">Modifier</a>
+            <a href="{{ path('app_rendez_vous_edit', {'id': rendez_vou.id}) }}" class="btn bouton-noir">
+                Modifier
+            </a>
         {% endif %}
     </div>
 

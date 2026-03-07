@@ -1,191 +1,171 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Barbershop - Accueil{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block stylesheets %}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #1a1a1a;
-            color: #fff;
-            min-height: 100vh;
-        }
-        .hero-section {
-            background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
-            padding: 80px 0;
-            margin-bottom: 40px;
-            border-bottom: 3px solid #d4af37;
-        }
-        .hero-title {
-            color: #d4af37;
-            font-size: 3rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        .hero-subtitle {
-            color: #aaa;
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-        }
-        .btn-gold {
-            background-color: #d4af37;
-            color: #1a1a1a;
-            border: none;
-            padding: 12px 30px;
-            font-weight: bold;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-        }
-        .btn-gold:hover {
-            background-color: #b8962e;
-            color: #1a1a1a;
-            transform: translateY(-2px);
-        }
-        .btn-outline-light {
-            border: 2px solid #fff;
-            padding: 10px 25px;
-            transition: all 0.3s ease;
-        }
-        .btn-outline-light:hover {
-            background-color: #fff;
-            color: #1a1a1a;
-        }
-        .section-title {
-            color: #d4af37;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 30px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #d4af37;
-            display: inline-block;
-        }
-        .prestation-card {
-            background-color: #2d2d2d;
-            border: 1px solid #444;
-            border-radius: 10px;
-            padding: 25px;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-        .prestation-card:hover {
-            transform: translateY(-5px);
-            border-color: #d4af37;
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
-        }
-        .prestation-nom {
-            color: #fff;
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .prestation-description {
-            color: #aaa;
-            font-size: 0.95rem;
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-        .prestation-details {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 15px;
-            border-top: 1px solid #444;
-        }
-        .prestation-prix {
-            color: #d4af37;
-            font-size: 1.4rem;
-            font-weight: bold;
-        }
-        .prestation-duree {
-            color: #888;
-            font-size: 0.9rem;
-        }
-        .navbar {
-            background-color: #2d2d2d !important;
-            border-bottom: 2px solid #d4af37;
-        }
-        .navbar-brand {
-            color: #d4af37 !important;
-            font-weight: bold;
-            font-size: 1.5rem;
-            text-transform: uppercase;
-        }
-        .nav-link {
-            color: #fff !important;
-        }
-        .nav-link:hover {
-            color: #d4af37 !important;
-        }
-    </style>
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('styles/app.css') }}">
 {% endblock %}
 
-{% block body %}
-    {# Navigation #}
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="{{ path('app_home') }}">✂️ Barbershop</a>
-            <div class="d-flex gap-2">
-                {% if app.user %}
-                    <a href="{{ path('app_rendez_vous_index') }}" class="btn btn-gold btn-sm">Mes Rendez-vous</a>
-                    <a href="{{ path('app_logout') }}" class="btn btn-outline-light btn-sm">Déconnexion</a>
-                {% else %}
-                    <a href="{{ path('app_login') }}" class="btn btn-outline-light btn-sm">Connexion</a>
-                    <a href="{{ path('app_register') }}" class="btn btn-gold btn-sm">Inscription</a>
-                {% endif %}
-            </div>
-        </div>
-    </nav>
+{% block content %}
 
-    {# Hero Section #}
-    <section class="hero-section text-center">
-        <div class="container">
-            <h1 class="hero-title mb-3">Bienvenue au Barbershop</h1>
-            <p class="hero-subtitle">Style, élégance et savoir-faire pour votre coupe de cheveux</p>
-            <div class="d-flex justify-content-center gap-3">
-                <a href="{{ path('app_rendez_vous_new') }}" class="btn btn-gold btn-lg">💈 Réserver</a>
-                {% if not app.user %}
-                    <a href="{{ path('app_login') }}" class="btn btn-outline-light btn-lg">Connexion</a>
-                {% endif %}
-            </div>
-        </div>
-    </section>
+<section class="hero">
 
-    {# Prestations Section #}
-    <section class="container mb-5">
-        <h2 class="section-title">Nos Prestations</h2>
-        
-        {% if prestations is empty %}
-            <div class="alert alert-warning" style="background-color: #2d2d2d; border-color: #d4af37; color: #fff;">
-                Aucune prestation disponible pour le moment. Revenez bientôt !
-            </div>
-        {% else %}
-            <div class="row">
-                {% for prestation in prestations %}
-                    <div class="col-md-6 col-lg-4">
-                        <div class="prestation-card">
-                            <h3 class="prestation-nom">{{ prestation.nom }}</h3>
-                            <p class="prestation-description">{{ prestation.description }}</p>
-                            <div class="prestation-details">
-                                <span class="prestation-prix">{{ prestation.prix }} €</span>
-                                <span class="prestation-duree">⏱️ {{ prestation.duree }} min</span>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
-        
-        <div class="text-center mt-4">
-            <a href="{{ path('app_rendez_vous_new') }}" class="btn btn-gold btn-lg">📅 Prendre Rendez-vous</a>
-        </div>
-    </section>
+<div class="row g-0">
 
-    {# Footer #}
-    <footer style="background-color: #2d2d2d; padding: 30px 0; margin-top: 50px; border-top: 2px solid #d4af37;">
-        <div class="container text-center">
-            <p style="color: #888; margin: 0;">&copy; {{ "now"|date("Y") }} Barbershop - Tous droits réservés</p>
-        </div>
-    </footer>
+<div class="col-md-6 hero-homme">
+
+<div class="texte-hero-gauche">
+
+<h1>BARBERSHOP</h1>
+
+<p>Spécial-Homme</p>
+
+</div>
+
+</div>
+
+<div class="col-md-6 hero-femme">
+
+<div class="texte-hero-droite">
+
+<h2>Beauty Salon</h2>
+
+<p>Spécial-Femme</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="text-center bouton-rdv">
+
+<a href="{{ path('app_login') }}" class="btn bouton-rendez-vous">
+PRENDRE RENDEZ-VOUS
+</a>
+
+</div>
+
+</section>
+
+
+<section id="prestations" class="section-prestations mt-5">
+
+<h2 class="text-center mb-4 section-title">Prestations</h2>
+
+<div class="row">
+
+<div class="col-md-3">
+
+<div class="carte-prestation prestation1">
+<div class="overlay-prestation">Barbe</div>
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="carte-prestation prestation2">
+<div class="overlay-prestation">Dégradé Américain</div>
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="carte-prestation prestation3">
+<div class="overlay-prestation">Coloration & Mèches</div>
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="carte-prestation prestation4">
+<div class="overlay-prestation">Extensions</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section id="coiffeurs" class="section-coiffeurs mt-5">
+
+<div class="row">
+
+<div class="col-md-4">
+
+<div class="salon-image">
+
+<div class="salon-texte">
+
+<h2>NOS COIFFEURS</h2>
+
+<p>Nos Experts à Votre Service</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-8">
+
+<div class="row">
+
+<div class="col-md-4">
+
+<div class="carte-coiffeur">
+
+<div class="image-coiffeur coiffeur1">
+<div class="nom-coiffeur">CHRIS</div>
+</div>
+
+<button class="btn bouton-profil">Voir Profil</button>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="carte-coiffeur">
+
+<div class="image-coiffeur coiffeur2">
+<div class="nom-coiffeur">LAURA</div>
+</div>
+
+<button class="btn bouton-profil">Voir Profil</button>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="carte-coiffeur">
+
+<div class="image-coiffeur coiffeur3">
+<div class="nom-coiffeur">MIKE</div>
+</div>
+
+<button class="btn bouton-profil">Voir Profil</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
 {% endblock %}
 

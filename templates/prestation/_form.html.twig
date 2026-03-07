@@ -1,4 +1,17 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            {% if prestation.id %}Modifier{% else %}Nouvelle{% endif %} prestation
+        </div>
+        <div class="card-body">
+            {{ form_widget(form) }}
+        </div>
+    </div>
+
+    <div class="d-flex gap-2">
+        <button class="btn bouton-rouge py-2 px-4">{{ button_label|default('Enregistrer') }}</button>
+        <a href="{{ path('app_prestation_index') }}" class="btn bouton-clair py-2 px-4">Annuler</a>
+    </div>
 {{ form_end(form) }}
+

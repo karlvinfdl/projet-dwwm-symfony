@@ -1,77 +1,98 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Rendez-vous - {% if is_granted('ROLE_ADMIN') %}Gestion{% else %}Mes rendez-vous{% endif %}{% endblock %}
+{% block title %}Mes rendez-vous - Barber Studio{% endblock %}
 
 {% block body %}
-    <h1>{% if is_granted('ROLE_ADMIN') %}Tous les rendez-vous{% else %}Mes rendez-vous{% endif %}</h1>
+<div class="container py-4">
+    <div class="page-header">
+        <h1>{% if is_granted('ROLE_ADMIN') %}Tous les rendez-vous{% else %}Mes rendez-vous{% endif %}</h1>
+        <p class="mb-0" style="color: #ccc;">
+            {% if is_granted('ROLE_ADMIN') %}Gérez tous les rendez-vous du salon{% else %}Suivez vos rendez-vous{% endif %}
+        </p>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Date et heure</th>
-                <th>Prestation</th>
-                <th>Statut</th>
-                {% if is_granted('ROLE_ADMIN') %}
-                <th>Client</th>
-                <th>Modifier le statut</th>
+    <div class="card">
+        <div class="card-body p-0">
+            <table class="table mb-0">
+                <thead>
+                    <tr>
+                        <th>Date et heure</th>
+                        <th>Prestation</th>
+                        <th>Statut</th>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <th>Client</th>
+                        <th>Modifier le statut</th>
+                        {% else %}
+                        <th>Commentaire</th>
+                        {% endif %}
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for rendez_vou in rendez_vouses %}
+                    <tr>
+                        <td>{{ rendez_vou.DateHeure ? rendez_vou.DateHeure|date('d/m/Y H:i') : '' }}</td>
+                        <td>{{ rendez_vou.prestation.nom }}</td>
+                        <td>
+                            {% if rendez_vou.Statut == 'en attente' %}
+                                <span class="badge bg-warning">En attente</span>
+                            {% elseif rendez_vou.Statut == 'accepté' %}
+                                <span class="badge bg-success">Accepté</span>
+                            {% elseif rendez_vou.Statut == 'terminé' %}
+                                <span class="badge bg-info">Terminé</span>
+                            {% elseif rendez_vou.Statut == 'annulé' %}
+                                <span class="badge bg-danger">Annulé</span>
+                            {% else %}
+                                {{ rendez_vou.Statut }}
+                            {% endif %}
+                        </td>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <td>{{ rendez_vou.user.email }}</td>
+                        <td>
+                            <form method="post" action="{{ path('app_rendez_vous_statut', {'id': rendez_vou.id}) }}" style="display: inline;">
+                                <input type="hidden" name="_token" value="{{ csrf_token('statut' ~ rendez_vou.id) }}">
+                                <select name="statut" onchange="this.form.submit()" class="form-select form-select-sm" style="width: auto; display: inline;">
+                                    <option value="" disabled selected>Changer</option>
+                                    <option value="en attente">En attente</option>
+                                    <option value="accepté">Accepté</option>
+                                    <option value="terminé">Terminé</option>
+                                    <option value="annulé">Annulé</option>
+                                </select>
+                            </form>
+                        </td>
+                        {% else %}
+                        <td>{{ rendez_vou.Commentaire }}</td>
+                        {% endif %}
+                        <td>
+                            <a href="{{ path('app_rendez_vous_show', {'id': rendez_vou.id}) }}" class="btn btn-action btn-action-view">Voir</a>
+                            {% if is_granted('ROLE_ADMIN') or rendez_vou.user == app.user %}
+                                <a href="{{ path('app_rendez_vous_edit', {'id': rendez_vou.id}) }}" class="btn btn-action btn-action-edit">Modifier</a>
+                            {% endif %}
+                        </td>
+                    </tr>
                 {% else %}
-                <th>Commentaire</th>
-                {% endif %}
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for rendez_vou in rendez_vouses %}
-            <tr>
-                <td>{{ rendez_vou.id }}</td>
-                <td>{{ rendez_vou.DateHeure ? rendez_vou.DateHeure|date('d/m/Y H:i') : '' }}</td>
-                <td>{{ rendez_vou.prestation.nom }}</td>
-                <td>
-                    {% if rendez_vou.Statut == 'en attente' %}
-                        <span class="badge bg-warning">En attente</span>
-                    {% elseif rendez_vou.Statut == 'accepté' %}
-                        <span class="badge bg-success">Accepté</span>
-                    {% elseif rendez_vou.Statut == 'terminé' %}
-                        <span class="badge bg-info">Terminé</span>
-                    {% elseif rendez_vou.Statut == 'annulé' %}
-                        <span class="badge bg-danger">Annulé</span>
-                    {% else %}
-                        {{ rendez_vou.Statut }}
-                    {% endif %}
-                </td>
-                {% if is_granted('ROLE_ADMIN') %}
-                <td>{{ rendez_vou.user.email }}</td>
-                <td>
-                    <form method="post" action="{{ path('app_rendez_vous_statut', {'id': rendez_vou.id}) }}" style="display: inline;">
-                        <input type="hidden" name="_token" value="{{ csrf_token('statut' ~ rendez_vou.id) }}">
-                        <select name="statut" onchange="this.form.submit()" class="form-select form-select-sm" style="width: auto; display: inline;">
-                            <option value="" disabled selected>Changer</option>
-                            <option value="en attente">En attente</option>
-                            <option value="accepté">Accepté</option>
-                            <option value="terminé">Terminé</option>
-                            <option value="annulé">Annulé</option>
-                        </select>
-                    </form>
-                </td>
-                {% else %}
-                <td>{{ rendez_vou.Commentaire }}</td>
-                {% endif %}
-                <td>
-                    <a href="{{ path('app_rendez_vous_show', {'id': rendez_vou.id}) }}">Voir</a>
-                    {% if is_granted('ROLE_ADMIN') or rendez_vou.user == app.user %}
-                        <a href="{{ path('app_rendez_vous_edit', {'id': rendez_vou.id}) }}">Modifier</a>
-                    {% endif %}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">Aucun rendez-vous trouvé.</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                    <tr>
+                        <td colspan="7" class="text-center py-4">
+                            <div class="empty-state">
+                                <p>Aucun rendez-vous trouvé.</p>
+                                <a href="{{ path('app_rendez_vous_new') }}" class="btn bouton-rouge mt-2">Prendre rendez-vous</a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-    <a href="{{ path('app_rendez_vous_new') }}" class="btn btn-primary">Créer un nouveau rendez-vous</a>
+    <div class="mt-4">
+        <a href="{{ path('app_rendez_vous_new') }}" class="btn bouton-rouge">
+            Créer un nouveau rendez-vous
+        </a>
+        <a href="{{ path('app_home') }}" class="btn bouton-clair">
+            Retour à l'accueil
+        </a>
+    </div>
+</div>
 {% endblock %}
 

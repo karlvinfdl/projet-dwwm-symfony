@@ -1,41 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Prestation index{% endblock %}
+{% block title %}Prestations - Barber Studio{% endblock %}
 
 {% block body %}
-    <h1>Prestation index</h1>
+<div class="container py-4">
+    <div class="page-header">
+        <h1>Nos Prestations</h1>
+        <p class="mb-0" style="color: #ccc;">Découvrez tous nos services</p>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>Prix</th>
-                <th>Duree</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for prestation in prestations %}
-            <tr>
-                <td>{{ prestation.id }}</td>
-                <td>{{ prestation.Nom }}</td>
-                <td>{{ prestation.Description }}</td>
-                <td>{{ prestation.Prix }}</td>
-                <td>{{ prestation.Duree }}</td>
-                <td>
-                    <a href="{{ path('app_prestation_show', {'id': prestation.id}) }}">show</a>
-                    <a href="{{ path('app_prestation_edit', {'id': prestation.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="card">
+        <div class="card-body p-0">
+            <table class="table mb-0">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Description</th>
+                        <th>Prix</th>
+                        <th>Durée</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for prestation in prestations %}
+                    <tr>
+                        <td><strong>{{ prestation.Nom }}</strong></td>
+                        <td>{{ prestation.Description }}</td>
+                        <td><span class="badge bg-primary">{{ prestation.Prix }}€</span></td>
+                        <td>{{ prestation.Duree }} min</td>
+                        <td>
+                            <a href="{{ path('app_prestation_show', {'id': prestation.id}) }}" class="btn btn-action btn-action-view">Voir</a>
+                            <a href="{{ path('app_prestation_edit', {'id': prestation.id}) }}" class="btn btn-action btn-action-edit">Modifier</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center py-4">
+                            <div class="empty-state">
+                                <p>Aucune prestation trouvée.</p>
+                                <a href="{{ path('app_prestation_new') }}" class="btn bouton-rouge mt-2">Créer une prestation</a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-    <a href="{{ path('app_prestation_new') }}">Create new</a>
+    <div class="mt-4">
+        <a href="{{ path('app_prestation_new') }}" class="btn bouton-rouge">
+            Créer une nouvelle prestation
+        </a>
+        <a href="{{ path('app_home') }}" class="btn bouton-clair">
+            Retour à l'accueil
+        </a>
+    </div>
+</div>
 {% endblock %}
+

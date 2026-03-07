@@ -1,0 +1,461 @@
+/* ========== Base Styles ========== */
+body {
+    background: #d6d0c8;
+    font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* ========== Navigation ========== */
+.barre-navigation {
+    background: #050505;
+}
+
+.logo-site {
+    color: #c8a74a;
+    font-weight: 900;
+    font-size: 24px;
+}
+
+.nav-link {
+    color: white;
+    font-weight: 700;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #c8a74a;
+}
+
+.nav-link.actif {
+    color: #c8a74a;
+}
+
+/* ========== Buttons ========== */
+.btn-primary {
+    background: #b00000;
+    border-color: #b00000;
+}
+
+.btn-primary:hover {
+    background: #8a0000;
+    border-color: #8a0000;
+}
+
+.bouton-clair {
+    background: #f2e9e2;
+    color: #b00000;
+    font-weight: 700;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.bouton-clair:hover {
+    background: #e5d9d0;
+    color: #8a0000;
+}
+
+.bouton-rouge {
+    background: #b00000;
+    color: white;
+    font-weight: 700;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.bouton-rouge:hover {
+    background: #8a0000;
+    color: white;
+}
+
+.bouton-noir {
+    background: #050505;
+    color: white;
+    font-weight: 700;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.bouton-noir:hover {
+    background: #333;
+    color: #c8a74a;
+}
+
+/* ========== Cards ========== */
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    background: #050505;
+    color: #c8a74a;
+    font-weight: 700;
+    border-radius: 15px 15px 0 0 !important;
+    padding: 15px 20px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* ========== Tables ========== */
+.table {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.table thead {
+    background: #050505;
+    color: white;
+}
+
+.table th {
+    font-weight: 700;
+    padding: 15px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.table td {
+    padding: 15px;
+    vertical-align: middle;
+}
+
+.table tbody tr {
+    transition: background 0.3s ease;
+}
+
+.table tbody tr:hover {
+    background: #f8f4f0;
+}
+
+/* ========== Forms ========== */
+.form-control,
+.form-select {
+    border: 2px solid #e0d5c9;
+    border-radius: 10px;
+    padding: 12px 15px;
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #b00000;
+    box-shadow: 0 0 0 3px rgba(176, 0, 0, 0.1);
+}
+
+.form-label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.form-check-input:checked {
+    background-color: #b00000;
+    border-color: #b00000;
+}
+
+/* ========== Badges ========== */
+.badge {
+    padding: 8px 12px;
+    font-weight: 600;
+    border-radius: 20px;
+}
+
+.bg-warning {
+    background: #f0a500 !important;
+}
+
+.bg-success {
+    background: #28a745 !important;
+}
+
+.bg-danger {
+    background: #dc3545 !important;
+}
+
+.bg-info {
+    background: #17a2b8 !important;
+}
+
+.bg-primary {
+    background: #b00000 !important;
+}
+
+/* ========== Page Headers ========== */
+.page-header {
+    background: linear-gradient(135deg, #050505 0%, #1a1a1a 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+}
+
+.page-header h1 {
+    color: #c8a74a;
+    font-weight: 900;
+    margin: 0;
+}
+
+.section-title {
+    color: #050505;
+    font-weight: 800;
+    margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.section-title::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: #b00000;
+    border-radius: 2px;
+}
+
+/* ========== Footer ========== */
+.footer {
+    background: #b00000;
+    color: white;
+    padding: 40px;
+    margin-top: 40px;
+    border-radius: 20px 20px 0 0;
+}
+
+.logo-footer {
+    font-size: 30px;
+    font-weight: 900;
+    color: #c8a74a;
+}
+
+.footer a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: #c8a74a;
+}
+
+.footer h5 {
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #c8a74a;
+}
+
+/* ========== Auth Pages ========== */
+.auth-container {
+    max-width: 450px;
+    margin: 40px auto;
+}
+
+.auth-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+.auth-header {
+    background: #050505;
+    padding: 30px;
+    text-align: center;
+}
+
+.auth-header h1 {
+    color: #c8a74a;
+    font-weight: 900;
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.auth-body {
+    padding: 40px;
+}
+
+/* ========== Dashboard ========== */
+.stat-card {
+    border-radius: 15px;
+    padding: 25px;
+    color: white;
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card .card-title {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.9;
+}
+
+.stat-card .display-4 {
+    font-weight: 800;
+    margin: 10px 0;
+}
+
+.stat-card-primary {
+    background: linear-gradient(135deg, #b00000 0%, #d40000 100%);
+}
+
+.stat-card-warning {
+    background: linear-gradient(135deg, #f0a500 0%, #ffc107 100%);
+}
+
+.stat-card-success {
+    background: linear-gradient(135deg, #28a745 0%, #34ce57 100%);
+}
+
+.stat-card-info {
+    background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);
+}
+
+/* ========== Action Buttons ========== */
+.btn-action {
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.btn-action-view {
+    background: #17a2b8;
+    color: white;
+    border: none;
+}
+
+.btn-action-view:hover {
+    background: #138496;
+    color: white;
+}
+
+.btn-action-edit {
+    background: #f0a500;
+    color: white;
+    border: none;
+}
+
+.btn-action-edit:hover {
+    background: #d39e00;
+    color: white;
+}
+
+.btn-action-delete {
+    background: #dc3545;
+    color: white;
+    border: none;
+}
+
+.btn-action-delete:hover {
+    background: #c82333;
+    color: white;
+}
+
+/* ========== Empty State ========== */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: #ccc;
+    margin-bottom: 20px;
+}
+
+/* ========== Alerts ========== */
+.alert {
+    border: none;
+    border-radius: 10px;
+    padding: 15px 20px;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.alert-danger {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.alert-warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.alert-info {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+/* ========== Links ========== */
+.text-primary {
+    color: #b00000 !important;
+}
+
+.link-primary {
+    color: #b00000;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.link-primary:hover {
+    color: #8a0000;
+    text-decoration: underline;
+}
+
+/* ========== Utility Classes ========== */
+.bg-lighter {
+    background: #f8f4f0;
+}
+
+.border-primary {
+    border-color: #b00000 !important;
+}
+
+.text-gold {
+    color: #c8a74a;
+}
+
+.bg-barber {
+    background: linear-gradient(135deg, #050505 0%, #1a1a1a 100%);
+}

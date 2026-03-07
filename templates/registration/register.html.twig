@@ -1,22 +1,68 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription - Barber Studio{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1>BARBER STUDIO</h1>
+            <p class="mb-0 mt-2" style="color: #ccc;">Créer un compte</p>
+        </div>
+        <div class="auth-body">
+            {{ form_errors(registrationForm) }}
 
-    {{ form_errors(registrationForm) }}
+            {{ form_start(registrationForm, {'attr': {'class': 'needs-validation'}}) }}
+                
+                <div class="mb-3">
+                    {{ form_label(registrationForm.nom, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Votre nom'}}) }}
+                    {{ form_errors(registrationForm.nom) }}
+                </div>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.nom) }}
-        {{ form_row(registrationForm.prenom) }}
-        {{ form_row(registrationForm.telephone) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+                <div class="mb-3">
+                    {{ form_label(registrationForm.prenom, 'Prénom', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Votre prénom'}}) }}
+                    {{ form_errors(registrationForm.prenom) }}
+                </div>
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+                <div class="mb-3">
+                    {{ form_label(registrationForm.telephone, 'Téléphone', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.telephone, {'attr': {'class': 'form-control', 'placeholder': 'Votre numéro de téléphone'}}) }}
+                    {{ form_errors(registrationForm.telephone) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Votre adresse email'}}) }}
+                    {{ form_errors(registrationForm.email) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(registrationForm.plainPassword, 'Mot de passe', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Choisissez un mot de passe'}}) }}
+                    {{ form_errors(registrationForm.plainPassword) }}
+                </div>
+
+                <div class="mb-3 form-check">
+                    {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
+                    {{ form_label(registrationForm.agreeTerms, 'J\'accepte les conditions d\'utilisation', {'label_attr': {'class': 'form-check-label'}}) }}
+                    {{ form_errors(registrationForm.agreeTerms) }}
+                </div>
+
+                <button type="submit" class="btn bouton-rouge w-100 py-2">
+                    Créer mon compte
+                </button>
+            {{ form_end(registrationForm) }}
+
+            <hr class="my-4">
+
+            <p class="text-center mb-0">
+                Déjà inscrit ? 
+                <a href="{{ path('app_login') }}" class="link-primary">Se connecter</a>
+            </p>
+        </div>
+    </div>
+</div>
 {% endblock %}
+
